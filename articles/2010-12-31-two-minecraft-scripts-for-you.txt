@@ -1,0 +1,41 @@
+--- 
+title: Two Minecraft Scripts For You
+date: 31/12/2010
+
+Minecraft multiplayer has been sucking up my free time.  Of course, I'm the admin of our server.  Its been fun, except for when I get prodded for downtime.  Tweaking and optimizing the server has become a small hobby, there are too many possibilities.
+
+I want to share a couple of short ruby scripts I've written over the past couple weeks.
+
+This is hourly.rb:
+
+<script src="https://gist.github.com/760784.js"> </script>
+
+
+Hourly simply copies my world/ directory to ~/Minecraft/Backups and sets the stage for nightly.rb  You never know what could go wrong.
+
+Next up, nightly.rb:
+
+<script src="https://gist.github.com/760786.js"> </script>
+
+Nightly is a fatter script.  First, it backups the last hourly backup to [tarsnap](http://tarsnap.com) (An excellent command line backup tool, check it out.) and then it generates a cartograph of the map.  [c10t](http://toolchain.eu/minecraft/c10t/) to do this.  Unlike all the shitty windows tools out there, this one is pure linux command line baby.The cartograph image file is moved to a publicly accessible directory.
+
+I run these scripts via cron.  Here's the crontab entries to do so:
+
+<pre>
+# m h  dom mon dow   command
+0 * * * * sudo ruby /home/justin/bin/hourly.rb
+5 5 * * * sudo ruby /home/justin/bin/butler.rb
+
+</pre>
+
+Obviously change the paths as necessary.
+
+*Quick Cron Tutorial*
+
+1. Edit your crone tab like so: `crontab -e`
+2. Add entries. Save.  Close.
+3. run `service cron stop` and then `service cron start`
+
+
+Hope you enjoy.
+
